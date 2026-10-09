@@ -22,30 +22,31 @@ Astronauts come home with weaker immune systems. In mice, spaceflight shrinks th
 
 ## Findings
 
-Our re-analysis found 80 genes at adjusted p < 0.05, and they fall into a few groups that point the same way:
+Our re-analysis found 146 genes at adjusted p < 0.05 out of 10,546 tested, 83 higher in flight and 63 lower. As a cross-check, 57 of the 80 genes in GeneLab's own analysis of this dataset are among them, and fold changes agree closely between the two (r = 0.86).
 
-- Stromal and perivascular genes rise together: Gpx3, Sparcl1, Pdgfra, Cxcl12. Gpx3 is the strongest signal in the dataset (adjusted p = 4.8 x 10^-14), and we found no earlier report of it changing in any spaceflight tissue.
-- Erythroid and heme-synthesis genes fall: Ank1, Trim10, Gypa, Hmbs.
-- Lymphoid organisation genes fall: Rgs13, Ccr7, Madcam1.
-- Type I interferon genes fall: Isg15, Ifi27l2a. This matches Wu et al. (Nature Communications, 2024), who used this dataset to check findings from human immune cells.
+Three groups of genes move together, and each one stands out from the rest of the dataset as a block (rank-sum test against all tested genes):
 
-Pathway analysis turned up the same signals. TGF-beta and BMP signalling and matrix remodelling go up in flight. Heme metabolism, interferon signalling and proliferation (E2F targets, G2-M checkpoint) go down.
+- Stromal and perivascular genes go up (p = 1.3 x 10^-7). All 10 genes in the module are individually significant, including Gpx3, Sparcl1, Pdgfra and Cxcl12. Gpx3 is the strongest single result (log2FC +0.91, adjusted p = 7.0 x 10^-16), and we found no earlier report of it changing in any spaceflight tissue.
+- Erythroid and heme-synthesis genes go down (p = 2.3 x 10^-5): Trim10, Gypa and Hmbs, along with most of the heme biosynthesis pathway.
+- Type I interferon genes go down (p = 6.6 x 10^-7): Isg15, Ifi27l2a, Rsad2 and others. This matches Wu et al. (Nature Communications, 2024), who used this dataset to check findings from human immune cells.
 
-Read together, the spleen looks like it is shifting from an organ that actively makes blood and immune cells toward a quieter, stroma-dominated one.
+Lymphoid organisation genes such as Rgs13 and Ccr7 also fall one by one, but that module does not separate from background as a block (p = 0.059), so we treat it as supporting detail.
 
-We also learned a lot from our first pass. Its filters (a coefficient-of-variation cutoff and |log2FC| > 2) kept mostly genes with near-zero counts, and its "hepatic lipidosis" and cholesterol-transport hits turned out to be liver and pancreas tissue carried over during dissection. The notebooks here fix both problems; `results/old_ten_gene_fate.csv` shows what happened to each of the ten first-pass genes.
+Pathway analysis (25 GSEA terms and 65 ORA terms passing our cutoffs) shows the same picture. TGF-beta and BMP signalling and matrix remodelling go up in flight. Heme metabolism, interferon signalling and proliferation (E2F targets, G2-M checkpoint) go down. Read together, the spleen looks like it is shifting from an organ that actively makes blood and immune cells toward a quieter, stroma-dominated one.
+
+We also learned a lot from our first pass, which reported only ten genes. Its filters (a coefficient-of-variation cutoff and |log2FC| > 2) kept mostly genes with near-zero counts, and its "hepatic lipidosis" and cholesterol-transport hits turned out to be liver tissue carried over during dissection. None of those ten genes holds up in the corrected analysis; `results/old_ten_gene_fate.csv` shows what happened to each one.
 
 ## Hypothesis and proposed aims
 
-If spaceflight remodels the splenic stromal niche, then flight-exposed spleens will show reduced red cell production and disrupted germinal-centre organisation, and the stromal compartment will change actively rather than shrink in proportion to the lymphoid tissue that is lost.
+We propose that spaceflight remodels the splenic stromal niche, and that this remodelling, rather than direct damage to leukocytes, drives the loss of red cell production, germinal-centre organisation and interferon tone behind post-flight immune decline.
 
-All three aims use hindlimb unloading, a ground-based spaceflight analog:
+All three aims use hindlimb unloading, a ground-based spaceflight analog, and each stands on its own:
 
-1. Count splenic erythroid progenitors per gram of perfused tissue with Ter119/CD71 flow cytometry, CFU-E colony assays and histology, to tell real loss of red cell production apart from a change in tissue composition.
-2. Find which cells express Gpx3 with single-nucleus RNA-seq, RNAscope and immunofluorescence, and test whether germinal centres still form normally after NP-KLH immunisation.
-3. Test whether selenium supplementation raises Gpx3 activity and protects red cell production.
+1. Find out whether the erythroid decline is a real loss of red cell production in the spleen or just less residual blood, using perfused spleens, Ter119/CD71 flow cytometry and CFU-E colony assays.
+2. Test whether stromal expansion disorganises germinal-centre architecture, using single-nucleus RNA-seq, immunofluorescence, and NP-KLH immunisation with germinal-centre scoring.
+3. Test whether the lower interferon signature means weaker antiviral defence, using ex vivo poly(I:C) and IFN-beta stimulation of splenocytes and an in vivo viral challenge.
 
-The full aims page is in [`docs/specific-aims.pdf`](docs/specific-aims.pdf) and our capstone showcase slides are in [`docs/capstone-showcase-slides.pdf`](docs/capstone-showcase-slides.pdf).
+Our ASGSR abstract is in [`docs/asgsr-2026-abstract.md`](docs/asgsr-2026-abstract.md) and our capstone showcase slides are in [`docs/capstone-showcase-slides.pdf`](docs/capstone-showcase-slides.pdf). The specific aims page in [`docs/specific-aims.pdf`](docs/specific-aims.pdf) was written in July, before the corrected analysis, so its gene count (80) and its third aim differ from what is described here.
 
 ## Repository layout
 
@@ -56,8 +57,9 @@ The full aims page is in [`docs/specific-aims.pdf`](docs/specific-aims.pdf) and 
 ├── CITATION.cff
 ├── requirements.txt
 ├── docs/
-│   ├── specific-aims.pdf             one-page specific aims
-│   └── capstone-showcase-slides.pdf  GL4HS capstone showcase deck
+│   ├── asgsr-2026-abstract.md        abstract accepted to ASGSR 2026
+│   ├── capstone-showcase-slides.pdf  GL4HS capstone showcase deck
+│   └── specific-aims.pdf             one-page specific aims (July draft)
 ├── notebooks/
 │   ├── NB6_CORRECTED_OSD420_dgea.ipynb      QC, contamination screen, differential expression
 │   ├── NB7_CORRECTED_OSD420_pathways.ipynb  GSEA and over-representation analysis
@@ -87,8 +89,6 @@ python scripts/04_schematics.py
 Run the scripts from the repository root. Raw data goes into `data/`, which git ignores.
 
 Methods in brief: ERCC spike-ins and a 71-transcript liver and pancreas carryover panel are removed, genes need CPM > 1 in at least 10 samples, and differential expression uses PyDESeq2 0.5.4 (design `~ condition`; positive log2FC means higher in flight). GSEA uses gseapy 1.3.1 with phenotype permutation on normalised counts across GO, MSigDB Hallmark and Reactome, filtered at FDR q < 0.25 and FWER < 0.25. ORA uses the tested genes as background.
-
-A note on gene counts: the 80 genes above are the number on our aims page. The notebooks in this repository are a later re-run with a stricter contamination screen, and their output (`results/deseq2_significant.csv`) lists 146 genes at adjusted p < 0.05. 57 of the 80 are among the 146, and fold changes agree closely between the two (r = 0.86).
 
 ## Acknowledgements
 

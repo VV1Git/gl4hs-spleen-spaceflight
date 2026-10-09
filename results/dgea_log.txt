@@ -1,0 +1,100 @@
+==============================================================================
+OSD-420 CORRECTED DGEA
+==============================================================================
+
+[1] raw STAR unnormalized counts             57,278 genes x 20 samples
+    Space Flight  n=10   Ground Control n=10
+[2] drop ERCC spike-ins  (-92)            57,186 genes
+[3] gene symbols mapped                      57,186 (16,926 from GeneLab annotation)
+
+[4] CONTAMINATION SCREEN (dissection carryover)
+    liver panel       47 genes detected
+    pancreas panel    24 genes detected
+    liver ppm    flight  min      96.8  median     135.0  max     294.5
+    liver ppm    ground  min      78.2  median     164.4  max     364.7
+    pancreas ppm flight  min      13.0  median      21.4  max    5751.3
+    pancreas ppm ground  min      11.0  median      24.4  max    7810.2
+    liver    flight vs ground  Mann-Whitney p = 0.3847   <- group-IMBALANCED, creates false DEGs
+    pancreas flight vs ground  Mann-Whitney p = 0.6776   <- group-balanced, creates none
+    within-group spread, liver: flight 3-fold, ground 5-fold
+    single worst ground sample: RR9_SPL_GC_G2 supplies 19.1% of all ground liver signal
+    EXCLUDING 71 contaminant transcripts    57,115 genes remain
+
+[5] prefilter: CPM > 1.0 in >= 10 samples  (-42,640)       14,475 genes into DESeq2
+    (the old pipeline reached DESeq2 with 4,080 genes -- a 3.5x larger tested set)
+
+[6] DESeq2  design = ~ condition   (single factor; all mice are male
+    C57BL/6J at one age, so no multi-factor model is available)
+    genes with a non-NaN adjusted p (BH denominator): 10,546 of 14,475
+    (the old pipeline's denominator was ~442)
+
+[7] THRESHOLD SENSITIVITY  (this is the table the old run could not produce)
+    adj p < 0.05  & |log2FC| > 0    ->  n =  146   (83 up, 63 down)
+    adj p < 0.05  & |log2FC| > 1    ->  n =   11   (2 up, 9 down)
+    adj p < 0.05  & |log2FC| > 1.5  ->  n =    2   (0 up, 2 down)
+    adj p < 0.05  & |log2FC| > 2    ->  n =    0   (0 up, 0 down)
+    adj p < 0.1   & |log2FC| > 0    ->  n =  234   (134 up, 100 down)
+    adj p < 0.01  & |log2FC| > 0    ->  n =   54   (30 up, 24 down)
+
+    HEADLINE: 146 genes at adjusted p < 0.05  (83 up in flight, 63 down)
+
+[8] CROSS-CHECK vs GeneLab's delivered DESeq2 (full gene set, all 21,876)
+    GeneLab significant at adj p < 0.05: 80
+    overlap with ours: 57  (ours only 89, theirs only 23)
+    log2FC correlation with GeneLab across 14,400 shared genes: r = 0.8644
+
+    Reference genes -- recovered?  (old pipeline recovered 1 of 18)
+    gene        our log2FC    our adj p  GeneLab log2FC  GeneLab adj p  ok
+    Gpx3             0.910     6.97e-16           0.928       4.84e-14  YES
+    Sparcl1          0.814      1.9e-09           0.833       2.09e-07  YES
+    Pdgfra           0.673       0.0127           0.949         0.0108  YES
+    Cxcl12           0.413      0.00175           0.449        0.00394  YES
+    Apoe             0.442     0.000632           0.457        0.00196  YES
+    Maf              0.445      1.3e-07           0.507       8.79e-05  YES
+    Aebp1            0.848      0.00086           0.887         0.0145  YES
+    Cldn5            0.625      0.00158           0.630         0.0197  YES
+    Kdr              0.499        0.032           0.573         0.0379  YES
+    Wt1              0.747      0.00923           0.809         0.0278  YES
+    Ank1            -2.376          nan          -3.681       2.13e-05  no
+    Trim10          -1.885     0.000151          -1.793        0.00969  YES
+    Gypa            -1.461       0.0058          -1.550        0.00167  YES
+    Hmbs            -1.050        0.014          -1.017         0.0143  YES
+    Rgs13           -1.998     3.17e-06          -2.024       8.79e-05  YES
+    Fcer2a          -0.546     9.45e-05          -0.605         0.0037  YES
+    Ccr7            -0.563      0.00488          -0.586         0.0112  YES
+    Madcam1         -0.595       0.0321          -0.577         0.0346  YES
+    Isg15           -0.786     5.64e-05          -0.788        0.00196  YES
+    Ifi27l2a        -0.631     2.15e-05          -0.606        0.00167  YES
+    Rsad2           -0.931       0.0266          -0.929         0.0152  YES
+    Trim30a         -0.283      0.00904          -0.420         0.0315  YES
+    Ccna2           -0.986      0.00086          -1.132        0.00823  YES
+
+    RECOVERED 22 of 23 reference genes (old pipeline: 1 of 18)
+
+[9] WHAT HAPPENED TO THE OLD 10-GENE LIST
+    gene         status in corrected analysis                     log2FC      adj p
+    Apoa2        EXCLUDED as liver/plasma contaminant                nan        nan
+    Ly6i         tested, NOT significant                          -2.020        nan
+    Hemgn        tested, NOT significant                          -2.143      0.061
+    Alb          EXCLUDED as liver/plasma contaminant                nan        nan
+    Add2         removed by CPM prefilter (not expressed in spleen)      nan        nan
+    Ank1         tested, NOT significant                          -2.376        nan
+    Gnao1        tested, NOT significant                           2.523        nan
+    Serpina3k    EXCLUDED as liver/plasma contaminant                nan        nan
+    Mup3         EXCLUDED as liver/plasma contaminant                nan        nan
+    Hspa1a       tested, NOT significant                           2.884        nan
+
+[10] MODULE-LEVEL TEST  (are these coordinated shifts, or single genes?)
+     Wilcoxon signed-rank on member-gene log2FC vs 0, using only tested genes
+     Stromal / perivascular     n=13 tested, 10 individually sig, median log2FC +0.499, Wilcoxon p = 2.15e-02
+     Erythroid / heme           n= 7 tested,  3 individually sig, median log2FC -1.341, Wilcoxon p = 1.56e-02
+     Lymphoid organisation      n= 9 tested,  4 individually sig, median log2FC -0.166, Wilcoxon p = 1.29e-01
+     Type I interferon          n=12 tested,  5 individually sig, median log2FC -0.402, Wilcoxon p = 4.88e-04
+
+[11] PCA -- raw counts vs variance-stabilised
+     raw  PC1  98.2%  PC2   1.4%   PC1 flight-vs-ground Mann-Whitney p = 0.791
+          PC1 vs library size: Spearman rho = +0.988 (p = 4.8e-16)
+     vst  PC1  14.7%  PC2  13.1%   PC1 flight-vs-ground Mann-Whitney p = 0.385
+          PC1 vs library size: Spearman rho = -0.914 (p = 1.7e-08)
+
+[12] wrote 146 DEG symbols and 10,546 background symbols

@@ -1,0 +1,11 @@
+gene,status,log2FC,padj
+Apoa2,EXCLUDED as liver/plasma contaminant,,
+Ly6i,"tested, NOT significant",-2.020325616702866,
+Hemgn,"tested, NOT significant",-2.1429202636294096,0.060963711120289615
+Alb,EXCLUDED as liver/plasma contaminant,,
+Add2,removed by CPM prefilter (not expressed in spleen),,
+Ank1,"tested, NOT significant",-2.3764033097319315,
+Gnao1,"tested, NOT significant",2.5233565661972364,
+Serpina3k,EXCLUDED as liver/plasma contaminant,,
+Mup3,EXCLUDED as liver/plasma contaminant,,
+Hspa1a,"tested, NOT significant",2.883735194862827,

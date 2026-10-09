@@ -1,0 +1,132 @@
+==============================================================================
+OSD-420 CORRECTED PATHWAY ANALYSIS
+==============================================================================
+
+tested genes (non-NaN adj p): 10,546
+significant at adj p < 0.05: 146  (83 up, 63 down)
+unique gene symbols after collapsing duplicates by highest baseMean: 10,546
+
+GENE LISTS FOR ENRICHMENT (course sweet spot is 10-50, up to ~100)
+   all significant : 146
+   UP in flight    : 83
+   DOWN in flight  : 63
+   -> analysing UP and DOWN separately; an asymmetric split is the
+      informative case, and a merged list cancels direction.
+
+------------------------------------------------------------------------------
+[A] GSEA  -- normalised counts, phenotype permutation, seed=7
+------------------------------------------------------------------------------
+    matrix 10,546 genes x 20 samples; 10 flight / 10 ground
+    positive NES = higher in SPACE FLIGHT
+    running GO_Biological_Process_2025 ...
+        1666 gene sets scored
+    running GO_Cellular_Component_2025 ...
+        180 gene sets scored
+    running MSigDB_Hallmark_2020 ...
+        49 gene sets scored
+    running Reactome_Pathways_2024 ...
+        1049 gene sets scored
+
+    passing FDR q < 0.25 AND FWER < 0.25: 25 terms (12 up in flight, 13 down)
+
+        NES     FDR q    FWER  Term
+      2.123    0.0123   0.008  Neuron Projection Guidance (GO:0097485)
+      2.059    0.0196   0.029  Axonogenesis (GO:0007409)
+      2.041    0.0184   0.038  Axon Guidance (GO:0007411)
+      2.020    0.0236   0.066  Negative Regulation of Cell Adhesion (GO:0007162)
+      2.011    0.0219   0.077  Cellular Response to Transforming Growth Factor Beta Stimulus (GO:0071560)
+     -2.003    0.0394   0.029  Sealing of the Nuclear Envelope (NE) by ESCRT-III
+     -1.985    0.0369   0.046  Kinesins
+     -1.961    0.0439   0.076  Interferon Signaling
+     -1.950    0.0425   0.090  RHO GTPases Activate IQGAPs
+     -1.947    0.1820   0.173  snRNA Processing (GO:0016180)
+      1.933    0.0593   0.215  Transforming Growth Factor Beta Receptor Signaling Pathway (GO:0007179)
+      1.920    0.2236   0.144  IRS-related Events Triggered by IGF1R
+     -1.903    0.0724   0.154  PKR-mediated Signaling
+      1.893    0.1744   0.199  Signaling by BMP
+     -1.875    0.0964   0.230  Antiviral Mechanism by IFN-stimulated Genes
+      1.771    0.0913   0.061  Epithelial Mesenchymal Transition
+     -1.719    0.1004   0.099  Interferon Alpha Response
+     -1.708    0.0528   0.106  G2-M Checkpoint
+     -1.696    0.0401   0.120  Interferon Gamma Response
+      1.692    0.1109   0.126  Estrogen Response Early
+      1.667    0.0930   0.144  UV Response Dn
+     -1.665    0.0398   0.159  E2F Targets
+      1.656    0.0767   0.156  TGF-beta Signaling
+     -1.607    0.0503   0.230  Myc Targets V1
+     -1.606    0.0424   0.232  heme Metabolism
+
+    leading-edge gene table written: 832 gene-in-term rows
+    sanity check -- do member genes actually move, and are they expressed?
+      n  med log2FC  med baseMean  Term
+     96      -0.157         418.4  Myc Targets V1
+     77      -0.279         175.4  E2F Targets
+     58      -0.268         266.5  Interferon Signaling
+     55      -0.354         158.0  G2-M Checkpoint
+     55      -0.265         268.1  Interferon Gamma Response
+     48      -0.404         191.4  heme Metabolism
+     46      +0.364         144.0  Epithelial Mesenchymal Transition
+     39      -0.199         296.3  Interferon Alpha Response
+     36      -0.275         190.1  Antiviral Mechanism by IFN-stimulated Genes
+     33      +0.373         149.6  Axonogenesis (GO:0007409)
+     33      +0.310         173.6  Cellular Response to Transforming Growth Factor Beta Stimulus (GO:0071
+     32      +0.372         135.8  UV Response Dn
+     31      +0.328         145.7  Estrogen Response Early
+     26      +0.303         180.2  Transforming Growth Factor Beta Receptor Signaling Pathway (GO:0007179
+     26      +0.392         151.6  Axon Guidance (GO:0007411)
+
+------------------------------------------------------------------------------
+[B] ORA  -- proper background, Overlap + Odds Ratio reported
+------------------------------------------------------------------------------
+    background = 10,546 genes actually tested by DESeq2
+    fetching gene-set libraries to compute effective set sizes ...
+
+    UP_in_flight: 83 genes
+
+    DOWN_in_flight: 63 genes
+
+    passing adj p < 0.05, overlap >= 3, set size 15-300: 65 terms
+
+    dir                  ovl   fold      OR      adj p  Term
+    DOWN_in_flight     7/152    7.7     8.9   0.000728  heme Metabolism
+    UP_in_flight       9/141    8.1     9.5   0.000821  Positive Regulation of Cell Motility (GO:2000147)
+    UP_in_flight      12/276    5.5     6.5   0.000821  Regulation of Cell Migration (GO:0030334)
+    UP_in_flight        6/60   12.7    15.0    0.00193  Axon Guidance (GO:0007411)
+    UP_in_flight        6/69   11.0    12.9    0.00291  Positive Regulation of Vasculature Development (GO:1904018)
+    UP_in_flight        5/44   14.4    17.1    0.00356  Negative Regulation of Epithelial Cell Proliferation (GO:0050680)
+    UP_in_flight       8/154    6.6     7.5    0.00367  Positive Regulation of Developmental Process (GO:0051094)
+    UP_in_flight       9/209    5.5     6.2    0.00371  Positive Regulation of Apoptotic Process (GO:0043065)
+    UP_in_flight        6/80    9.5    10.9    0.00371  Regulation of Transforming Growth Factor Beta Receptor Signaling P
+    UP_in_flight       9/209    5.5     6.2    0.00371  Positive Regulation of Cell Migration (GO:0030335)
+    UP_in_flight      10/292    4.4     4.9    0.00373  Focal Adhesion (GO:0005925)
+    UP_in_flight      10/297    4.3     4.9    0.00373  Cell-Substrate Junction (GO:0030055)
+    UP_in_flight        5/54   11.8    13.6    0.00525  Neuron Projection Guidance (GO:0097485)
+    UP_in_flight       6/104    7.3     8.2    0.00569  Estrogen Response Early
+    UP_in_flight        5/57   11.1    12.8    0.00633  Regulation of Endothelial Cell Proliferation (GO:0001936)
+    UP_in_flight        5/80    7.9     8.9    0.00708  Androgen Response
+    UP_in_flight      10/294    4.3     4.9    0.00713  Negative Regulation of Apoptotic Process (GO:0043066)
+    UP_in_flight       7/163    5.5     6.1    0.00754  Collagen-Containing Extracellular Matrix (GO:0062023)
+    UP_in_flight        4/33   15.4    18.2    0.00837  Response to Unfolded Protein (GO:0006986)
+    UP_in_flight        5/67    9.5    10.8     0.0113  Positive Regulation of Protein Modification Process (GO:0031401)
+    UP_in_flight       8/205    5.0     5.6     0.0122  Negative Regulation of Cell Population Proliferation (GO:0008285)
+    DOWN_in_flight      4/29   23.1    28.4     0.0131  Negative Regulation of Viral Genome Replication (GO:0045071)
+    UP_in_flight       7/158    5.6     6.3     0.0136  Positive Regulation of Cell Differentiation (GO:0045597)
+    UP_in_flight       7/163    5.5     6.1     0.0153  Positive Regulation of Programmed Cell Death (GO:0043068)
+    UP_in_flight        5/78    8.1     9.1     0.0153  Positive Regulation of ERK1 and ERK2 Cascade (GO:0070374)
+    UP_in_flight        3/17   22.4    28.0     0.0153  Negative Regulation of Myeloid Cell Differentiation (GO:0045638)
+    UP_in_flight       6/119    6.4     7.1     0.0153  Regulation of ERK1 and ERK2 Cascade (GO:0070372)
+    UP_in_flight        3/18   21.2    26.1     0.0153  Chaperone Cofactor-Dependent Protein Refolding (GO:0051085)
+    UP_in_flight        5/78    8.1     9.1     0.0153  Positive Regulation of Angiogenesis (GO:0045766)
+    UP_in_flight        3/19   20.1    24.5     0.0162  Regulation of Protein Transport (GO:0051223)
+
+    ORA member-gene table written: 334 gene-in-term rows
+
+------------------------------------------------------------------------------
+[C] MODULE TESTS -- the three lines of evidence
+------------------------------------------------------------------------------
+
+    module                           n  sig  median log2FC  signed-rank p   rank-sum p
+    Stromal / perivascular (UP)     10   10         +0.649       1.95e-03     1.26e-07
+    Erythroid / heme (DOWN)          6    3         -1.401       3.12e-02     2.35e-05
+    Lymphoid organisation (DOWN)     8    4         -0.356       1.48e-01     5.86e-02
+    Type I interferon (DOWN)        10    5         -0.511       1.95e-03     6.56e-07

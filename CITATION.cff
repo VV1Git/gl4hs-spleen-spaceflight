@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below, along with the OSD-420 dataset."
+title: "When the Spleen Stops Building: Stromal Remodelling and the Loss of Blood and Immune Cell Production in Spaceflight"
+authors:
+  - name: "The Spleen Machine (Kireeti, Pranav, Aryan, Vedant)"
+date-released: 2026-10-08
+license: MIT
+repository-code: "https://github.com/VV1Git/gl4hs-spleen-spaceflight"
+keywords: [spaceflight, spleen, RNA-seq, GeneLab, OSD-420, RR-9]
+references:
+  - type: dataset
+    title: "Transcriptional profiling of spleens from mice flown on the RR-9 mission"
+    authors:
+      - family-names: Galazka
+        given-names: Jonathan M.
+    doi: 10.26030/k030-ms28
+    publisher:
+      name: "NASA Open Science Data Repository"
